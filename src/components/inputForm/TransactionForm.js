@@ -1,11 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import TransactionContext from '../../context/transaction/transactionContext';
 
 const TransactionForm = () => {
+  const transactionContext = useContext(TransactionContext);
+
+  const { addTransaction } = transactionContext;
+
   useEffect(() => {
+    // Initializing datePicker and select elements with Materialize-css
     const datePicker = document.querySelector('.datepicker');
     // eslint-disable-next-line no-undef
     M.Datepicker.init(datePicker, {
-      autoClose: true
+      autoClose: true,
+      onSelect: date => {
+        let dispDate = '';
+        console.log(typeof transDate);
+        switch (date.getMonth()) {
+          case 0:
+            dispDate = `Jan ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 1:
+            dispDate = `Feb ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 2:
+            dispDate = `Mar ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 3:
+            dispDate = `Apr ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 4:
+            dispDate = `May ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 5:
+            dispDate = `Jun ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 6:
+            dispDate = `Jul ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 7:
+            dispDate = `Aug ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 8:
+            dispDate = `Sep ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 9:
+            dispDate = `Oct ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 10:
+            dispDate = `Nov ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          case 11:
+            dispDate = `Dec ${date.getDate()}, ${date.getFullYear()}`;
+            break;
+
+          default:
+            dispDate = '';
+            break;
+        }
+        setTransaction({
+          ...transaction,
+          transDate: date,
+          displayDate: dispDate
+        });
+      }
     });
 
     const select = document.querySelector('#type');
@@ -13,25 +81,46 @@ const TransactionForm = () => {
     M.FormSelect.init(select);
   });
 
+  // set up component level state
   const [transaction, setTransaction] = useState({
     service: '',
     type: 'sale',
     asset: '',
-    transdate: '',
+    displayDate: '',
+    transDate: '',
     qty: '',
     amount: '',
     fee: ''
   });
 
-  const { service, type, asset, transdate, qty, amount, fee } = transaction;
+  // destructure state for easier use
+  const { service, type, asset, displayDate, qty, amount, fee } = transaction;
 
+  // update component state when form inputs change
   const onChange = e => {
+    console.log(e);
     setTransaction({ ...transaction, [e.target.name]: e.target.value });
+  };
+
+  // actions for form submission
+  const onSubmit = e => {
+    e.preventDefault();
+    addTransaction(transaction);
+    setTransaction({
+      service: '',
+      type: 'sale',
+      asset: '',
+      displayDate: '',
+      transDate: '',
+      qty: '',
+      amount: '',
+      fee: ''
+    });
   };
 
   return (
     <div className='row section'>
-      <form action='' className='col s12'>
+      <form className='col s12' onSubmit={onSubmit}>
         <div className='row'>
           <div className='input-field col s2'>
             <input
@@ -71,7 +160,7 @@ const TransactionForm = () => {
               id='transdate'
               placeholder='Click to pick date'
               className='datepicker'
-              value={transdate}
+              value={displayDate}
               onChange={onChange}
             />
             <label htmlFor='transdate'>Transaction Date</label>
