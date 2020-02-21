@@ -5,7 +5,7 @@ const TransactionCard = ({ transaction }) => {
   console.log(transaction);
 
   const {
-    id,
+    // id,
     service,
     type,
     asset,

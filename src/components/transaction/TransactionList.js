@@ -5,7 +5,7 @@ import TransactionCard from './TransactionCard';
 const TransactionList = () => {
   const transactionContext = useContext(TransactionContext);
 
-  const { transactions, current } = transactionContext;
+  const { transactions /*, current */ } = transactionContext;
 
   if (transactions.length === 0) {
     return <h4>Enter a transaction!</h4>;
