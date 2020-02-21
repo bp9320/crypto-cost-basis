@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import TransactionForm from './components/inputForm/TransactionForm';
+import TransactionForm from './components/transaction/TransactionForm';
+import TransactionList from './components/transaction/TransactionList';
 
 import TransactionState from './context/transaction/TransactionState';
 // import './App.css';
@@ -20,6 +21,7 @@ const App = () => {
         </div>
         <div className='divider'></div>
         <TransactionForm />
+        <TransactionList />
       </Fragment>
     </TransactionState>
   );

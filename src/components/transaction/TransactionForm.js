@@ -13,55 +13,54 @@ const TransactionForm = () => {
     M.Datepicker.init(datePicker, {
       autoClose: true,
       onSelect: date => {
-        let dispDate = '';
-        console.log(typeof transDate);
+        let dispDate = `${date.getDate()}, ${date.getFullYear()}`;
         switch (date.getMonth()) {
           case 0:
-            dispDate = `Jan ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Jan ${dispDate} `;
             break;
 
           case 1:
-            dispDate = `Feb ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Feb ${dispDate}`;
             break;
 
           case 2:
-            dispDate = `Mar ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Mar ${dispDate}`;
             break;
 
           case 3:
-            dispDate = `Apr ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Apr ${dispDate}`;
             break;
 
           case 4:
-            dispDate = `May ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `May ${dispDate}`;
             break;
 
           case 5:
-            dispDate = `Jun ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Jun ${dispDate}`;
             break;
 
           case 6:
-            dispDate = `Jul ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Jul ${dispDate}`;
             break;
 
           case 7:
-            dispDate = `Aug ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Aug ${dispDate}`;
             break;
 
           case 8:
-            dispDate = `Sep ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Sep ${dispDate}`;
             break;
 
           case 9:
-            dispDate = `Oct ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Oct ${dispDate}`;
             break;
 
           case 10:
-            dispDate = `Nov ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Nov ${dispDate}`;
             break;
 
           case 11:
-            dispDate = `Dec ${date.getDate()}, ${date.getFullYear()}`;
+            dispDate = `Dec ${dispDate}`;
             break;
 
           default:
@@ -98,7 +97,6 @@ const TransactionForm = () => {
 
   // update component state when form inputs change
   const onChange = e => {
-    console.log(e);
     setTransaction({ ...transaction, [e.target.name]: e.target.value });
   };
 
