@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d066c0a8d2cf8e2eb60c145e4c8d6f20",
+    "revision": "96b43cbe1d162b43756adcb643d03f98",
     "url": "/crypto-cost-basis/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/crypto-cost-basis/static/js/2.56a104c6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "b71641a8a359a32ea1fa",
-    "url": "/crypto-cost-basis/static/js/main.d45f7b2d.chunk.js"
+    "revision": "25c07ad6a9e9fd21e91f",
+    "url": "/crypto-cost-basis/static/js/main.57ebc02a.chunk.js"
   },
   {
     "revision": "59b3db85144f6c6a01f4",
