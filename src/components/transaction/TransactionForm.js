@@ -7,73 +7,73 @@ const TransactionForm = () => {
   const { addTransaction } = transactionContext;
 
   useEffect(() => {
-    // Initializing datePicker and select elements with Materialize-css
-    const datePicker = document.querySelector('.datepicker');
-    // eslint-disable-next-line no-undef
-    M.Datepicker.init(datePicker, {
-      autoClose: true,
-      onSelect: date => {
-        let dispDate = `${date.getDate()}, ${date.getFullYear()}`;
-        switch (date.getMonth()) {
-          case 0:
-            dispDate = `Jan ${dispDate} `;
-            break;
+    // // Initializing datePicker and select elements with Materialize-css
+    // const datePicker = document.querySelector('.datepicker');
+    // // eslint-disable-next-line no-undef
+    // M.Datepicker.init(datePicker, {
+    //   autoClose: true,
+    //   onSelect: date => {
+    //     let dispDate = `${date.getDate()}, ${date.getFullYear()}`;
+    //     switch (date.getMonth()) {
+    //       case 0:
+    //         dispDate = `Jan ${dispDate} `;
+    //         break;
 
-          case 1:
-            dispDate = `Feb ${dispDate}`;
-            break;
+    //       case 1:
+    //         dispDate = `Feb ${dispDate}`;
+    //         break;
 
-          case 2:
-            dispDate = `Mar ${dispDate}`;
-            break;
+    //       case 2:
+    //         dispDate = `Mar ${dispDate}`;
+    //         break;
 
-          case 3:
-            dispDate = `Apr ${dispDate}`;
-            break;
+    //       case 3:
+    //         dispDate = `Apr ${dispDate}`;
+    //         break;
 
-          case 4:
-            dispDate = `May ${dispDate}`;
-            break;
+    //       case 4:
+    //         dispDate = `May ${dispDate}`;
+    //         break;
 
-          case 5:
-            dispDate = `Jun ${dispDate}`;
-            break;
+    //       case 5:
+    //         dispDate = `Jun ${dispDate}`;
+    //         break;
 
-          case 6:
-            dispDate = `Jul ${dispDate}`;
-            break;
+    //       case 6:
+    //         dispDate = `Jul ${dispDate}`;
+    //         break;
 
-          case 7:
-            dispDate = `Aug ${dispDate}`;
-            break;
+    //       case 7:
+    //         dispDate = `Aug ${dispDate}`;
+    //         break;
 
-          case 8:
-            dispDate = `Sep ${dispDate}`;
-            break;
+    //       case 8:
+    //         dispDate = `Sep ${dispDate}`;
+    //         break;
 
-          case 9:
-            dispDate = `Oct ${dispDate}`;
-            break;
+    //       case 9:
+    //         dispDate = `Oct ${dispDate}`;
+    //         break;
 
-          case 10:
-            dispDate = `Nov ${dispDate}`;
-            break;
+    //       case 10:
+    //         dispDate = `Nov ${dispDate}`;
+    //         break;
 
-          case 11:
-            dispDate = `Dec ${dispDate}`;
-            break;
+    //       case 11:
+    //         dispDate = `Dec ${dispDate}`;
+    //         break;
 
-          default:
-            dispDate = '';
-            break;
-        }
-        setTransaction({
-          ...transaction,
-          transDate: date,
-          displayDate: dispDate
-        });
-      }
-    });
+    //       default:
+    //         dispDate = '';
+    //         break;
+    //     }
+    //     setTransaction({
+    //       ...transaction,
+    //       transDate: date,
+    //       displayDate: dispDate
+    //     });
+    //   }
+    // });
 
     const select = document.querySelector('#type');
     // eslint-disable-next-line no-undef
@@ -154,9 +154,9 @@ const TransactionForm = () => {
           <div className='input-field col s2'>
             <input
               type='text'
-              name='transdate'
-              id='transdate'
-              placeholder='Click to pick date'
+              name='displayDate'
+              id='displayDate'
+              placeholder='ISO 8601 Format'
               className='datepicker'
               value={displayDate}
               onChange={onChange}
