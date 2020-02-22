@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import TransactionContext from '../../context/transaction/transactionContext';
+import Papa from 'papaparse';
 
 const TransactionForm = () => {
   const transactionContext = useContext(TransactionContext);
@@ -100,8 +101,8 @@ const TransactionForm = () => {
     setTransaction({ ...transaction, [e.target.name]: e.target.value });
   };
 
-  // actions for form submission
-  const onSubmit = e => {
+  // actions for single transaction form submission
+  const onSubmitSingle = e => {
     e.preventDefault();
     addTransaction(transaction);
     setTransaction({
@@ -116,99 +117,137 @@ const TransactionForm = () => {
     });
   };
 
+  // actions for file upload form submission
+  const onSubmitUpload = e => {
+    e.preventDefault();
+    const file = document.getElementById('fileUpload').files[0];
+    let results = Papa.parse(file, {
+      header: true,
+      complete: results => {
+        console.log(results);
+      }
+    });
+    console.log('Results: ', results);
+  };
+
   return (
-    <div className='row section'>
-      <form className='col s12' onSubmit={onSubmit}>
-        <div className='row'>
-          <div className='input-field col s2'>
-            <input
-              type='text'
-              name='service'
-              id='service'
-              value={service}
-              placeholder='e.g. Coinbase'
-              className='validate'
-              onChange={onChange}
-            />
-            <label htmlFor='service'>Trading Service</label>
+    <Fragment>
+      <div className='row section'>
+        <form className='col s12' onSubmit={onSubmitSingle}>
+          <div className='row'>
+            <div className='input-field col s2'>
+              <input
+                type='text'
+                name='service'
+                id='service'
+                value={service}
+                placeholder='e.g. Coinbase'
+                className='validate'
+                onChange={onChange}
+              />
+              <label htmlFor='service'>Trading Service</label>
+            </div>
+            <div className='input-field col s2'>
+              <select name='type' id='type' value={type} onChange={onChange}>
+                <option value='purchase'>Purchase</option>
+                <option value='sale'>Sale</option>
+              </select>
+              <label htmlFor='type'>Transaction Type</label>
+            </div>
+            <div className='input-field col s1'>
+              <input
+                type='text'
+                name='asset'
+                id='asset'
+                placeholder='e.g. BTC, ETH, LTC'
+                className='validate'
+                value={asset}
+                onChange={onChange}
+              />
+              <label htmlFor='asset'>Asset</label>
+            </div>
+            <div className='input-field col s2'>
+              <input
+                type='text'
+                name='displayDate'
+                id='displayDate'
+                placeholder='ISO 8601 Format'
+                className='datepicker'
+                value={displayDate}
+                onChange={onChange}
+              />
+              <label htmlFor='transdate'>Transaction Date</label>
+            </div>
+            <div className='input-field col s1'>
+              <input
+                type='text'
+                name='qty'
+                id='qty'
+                placeholder='Quantity'
+                value={qty}
+                onChange={onChange}
+              />
+              <label htmlFor='qty'>Quantity</label>
+            </div>
+            <div className='input-field col s2'>
+              <input
+                type='text'
+                name='amount'
+                id='amount'
+                placeholder='Dollar Amount'
+                value={amount}
+                onChange={onChange}
+              />
+              <label htmlFor='amount'>Transaction Amount</label>
+            </div>
+            <div className='input-field col s2'>
+              <input
+                type='text'
+                name='fee'
+                id='fee'
+                placeholder='Fees'
+                value={fee}
+                onChange={onChange}
+              />
+              <label htmlFor='fee'>Transaction Fee</label>
+            </div>
           </div>
-          <div className='input-field col s2'>
-            <select name='type' id='type' value={type} onChange={onChange}>
-              <option value='purchase'>Purchase</option>
-              <option value='sale'>Sale</option>
-            </select>
-            <label htmlFor='type'>Transaction Type</label>
+          <div className='row center-align'>
+            <button
+              className='btn waves-effect waves-light'
+              type='submit'
+              name='submit'
+            >
+              Add Transaction
+              <i className='material-icons right'>send</i>
+            </button>
           </div>
-          <div className='input-field col s1'>
-            <input
-              type='text'
-              name='asset'
-              id='asset'
-              placeholder='e.g. BTC, ETH, LTC'
-              className='validate'
-              value={asset}
-              onChange={onChange}
-            />
-            <label htmlFor='asset'>Asset</label>
+        </form>
+      </div>
+      <div className='row section'>
+        <form className='col s4 push-s4' onSubmit={onSubmitUpload}>
+          <div className='file-field input-field'>
+            <div className='btn'>
+              <span>Select File</span>
+              <input type='file' id='fileUpload' />
+            </div>
+            <div className='file-path-wrapper'>
+              <input type='text' className='file-path validate' />
+            </div>
           </div>
-          <div className='input-field col s2'>
-            <input
-              type='text'
-              name='displayDate'
-              id='displayDate'
-              placeholder='ISO 8601 Format'
-              className='datepicker'
-              value={displayDate}
-              onChange={onChange}
-            />
-            <label htmlFor='transdate'>Transaction Date</label>
+          <div className='row center-align'>
+            <button
+              className='btn waves-effect waves-light'
+              type='submit'
+              name='submit'
+            >
+              Parse Transactions
+              <i className='material-icons right'>insert_drive_file</i>
+            </button>
           </div>
-          <div className='input-field col s1'>
-            <input
-              type='text'
-              name='qty'
-              id='qty'
-              placeholder='Quantity'
-              value={qty}
-              onChange={onChange}
-            />
-            <label htmlFor='qty'>Quantity</label>
-          </div>
-          <div className='input-field col s2'>
-            <input
-              type='text'
-              name='amount'
-              id='amount'
-              placeholder='Dollar Amount'
-              value={amount}
-              onChange={onChange}
-            />
-            <label htmlFor='amount'>Transaction Amount</label>
-          </div>
-          <div className='input-field col s2'>
-            <input
-              type='text'
-              name='fee'
-              id='fee'
-              placeholder='Fees'
-              value={fee}
-              onChange={onChange}
-            />
-            <label htmlFor='fee'>Transaction Fee</label>
-          </div>
-        </div>
-        <div className='row center-align'>
-          <button
-            className='btn waves-effect waves-light'
-            type='submit'
-            name='submit'
-          >
-            Add Transaction
-            <i className='material-icons right'>send</i>
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </Fragment>
   );
 };
 
