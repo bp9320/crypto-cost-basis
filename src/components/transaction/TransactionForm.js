@@ -120,14 +120,22 @@ const TransactionForm = () => {
   // actions for file upload form submission
   const onSubmitUpload = e => {
     e.preventDefault();
-    const file = document.getElementById('fileUpload').files[0];
-    let results = Papa.parse(file, {
-      header: true,
-      complete: results => {
-        console.log(results);
-      }
-    });
-    console.log('Results: ', results);
+    const file = document.getElementById('fileUpload');
+    console.log(file, file.files.length);
+    if (file.files.length > 0) {
+      Papa.parse(file.files[0], {
+        header: true,
+        complete: parsedTransactions => {
+          // put add transaction code here
+          console.log(parsedTransactions);
+          for (var csvTransaction of parsedTransactions.data) {
+            addTransaction(csvTransaction);
+          }
+        }
+      });
+    }
+    file.value = '';
+    document.getElementById('filePathText').value = '';
   };
 
   return (
@@ -149,8 +157,8 @@ const TransactionForm = () => {
             </div>
             <div className='input-field col s2'>
               <select name='type' id='type' value={type} onChange={onChange}>
-                <option value='purchase'>Purchase</option>
-                <option value='sale'>Sale</option>
+                <option value='buy'>Buy</option>
+                <option value='sell'>Sell</option>
               </select>
               <label htmlFor='type'>Transaction Type</label>
             </div>
@@ -232,7 +240,11 @@ const TransactionForm = () => {
               <input type='file' id='fileUpload' />
             </div>
             <div className='file-path-wrapper'>
-              <input type='text' className='file-path validate' />
+              <input
+                type='text'
+                className='file-path validate'
+                id='filePathText'
+              />
             </div>
           </div>
           <div className='row center-align'>
