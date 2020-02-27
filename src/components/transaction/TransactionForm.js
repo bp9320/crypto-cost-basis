@@ -84,9 +84,9 @@ const TransactionForm = () => {
   // set up component level state
   const [transaction, setTransaction] = useState({
     service: '',
-    type: 'sale',
+    type: 'sell',
     asset: '',
-    displayDate: '',
+    //displayDate: '',
     transDate: '',
     qty: '',
     amount: '',
@@ -94,7 +94,7 @@ const TransactionForm = () => {
   });
 
   // destructure state for easier use
-  const { service, type, asset, displayDate, qty, amount, fee } = transaction;
+  const { service, type, asset, transDate, qty, amount, fee } = transaction;
 
   // update component state when form inputs change
   const onChange = e => {
@@ -107,9 +107,9 @@ const TransactionForm = () => {
     addTransaction(transaction);
     setTransaction({
       service: '',
-      type: 'sale',
+      type: 'sell',
       asset: '',
-      displayDate: '',
+      //displayDate: '',
       transDate: '',
       qty: '',
       amount: '',
@@ -177,11 +177,11 @@ const TransactionForm = () => {
             <div className='input-field col s2'>
               <input
                 type='text'
-                name='displayDate'
-                id='displayDate'
+                name='transDate'
+                id='transDate'
                 placeholder='ISO 8601 Format'
                 className='datepicker'
-                value={displayDate}
+                value={transDate}
                 onChange={onChange}
               />
               <label htmlFor='transdate'>Transaction Date</label>

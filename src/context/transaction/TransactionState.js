@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import uuid from 'uuid';
+import moment from 'moment';
 import TransactionContext from './transactionContext';
 import transactionReducer from './transactionReducer';
 
@@ -22,8 +23,21 @@ const TransactionState = props => {
 
   // Add Transaction
   const addTransaction = transaction => {
+    // set unique id
     transaction.id = uuid.v4();
-    dispatch({ type: ADD_TRANSACTION, payload: transaction });
+
+    // format input data
+    transaction.transDate = moment(transaction.transDate);
+    transaction.qty = parseFloat(transaction.qty);
+    transaction.amount = parseFloat(transaction.amount);
+    transaction.fee = parseFloat(transaction.fee);
+
+    // set display date
+    transaction.displayDate = transaction.transDate.format('llll');
+    dispatch({
+      type: ADD_TRANSACTION,
+      payload: transaction
+    });
   };
 
   // Delete Transaction

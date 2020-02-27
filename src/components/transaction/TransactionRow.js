@@ -10,10 +10,13 @@ const TransactionRow = ({ transaction }) => {
     type,
     asset,
     displayDate,
+    // transDate,
     qty,
     amount,
     fee
   } = transaction;
+
+  console.log('pre-return');
 
   return (
     <tr>
@@ -22,8 +25,8 @@ const TransactionRow = ({ transaction }) => {
       <td>{asset}</td>
       <td>{displayDate}</td>
       <td>{qty}</td>
-      <td>${amount}</td>
-      <td>${fee}</td>
+      <td>$ {amount}</td>
+      <td>$ {fee}</td>
     </tr>
   );
 };
