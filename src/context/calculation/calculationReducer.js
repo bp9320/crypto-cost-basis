@@ -5,7 +5,7 @@ export default (state, action) => {
     case SET_ASSET_TYPES:
       return {
         ...state,
-        assetTypes: [...state.assetTypes, action.payload]
+        assetTypes: action.payload
       };
 
     default:

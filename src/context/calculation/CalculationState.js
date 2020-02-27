@@ -7,7 +7,7 @@ import { SET_ASSET_TYPES } from '../types';
 
 const CalculationState = props => {
   const initialState = {
-    assetTypes: []
+    assetTypes: null
   };
 
   const [state, dispatch] = useReducer(calculationReducer, initialState);
