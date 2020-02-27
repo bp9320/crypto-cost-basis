@@ -4,13 +4,7 @@ import moment from 'moment';
 import TransactionContext from './transactionContext';
 import transactionReducer from './transactionReducer';
 
-import {
-  ADD_TRANSACTION,
-  DELETE_TRANSACTION,
-  SET_CURRENT,
-  CLEAR_CURRENT,
-  UPDATE_TRANSACTION
-} from '../types';
+import { ADD_TRANSACTION } from '../types';
 
 const TransactionState = props => {
   const initialState = {

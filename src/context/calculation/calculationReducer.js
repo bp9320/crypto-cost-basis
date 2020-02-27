@@ -1,11 +1,11 @@
-import { ADD_TRANSACTION } from '../types';
+import { SET_ASSET_TYPES } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
-    case ADD_TRANSACTION:
+    case SET_ASSET_TYPES:
       return {
         ...state,
-        transactions: [...state.transactions, action.payload]
+        assetTypes: [...state.assetTypes, action.payload]
       };
 
     default:
