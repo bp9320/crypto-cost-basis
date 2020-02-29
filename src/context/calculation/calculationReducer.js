@@ -1,4 +1,4 @@
-import { SET_ASSET_TYPES } from '../types';
+import { SET_ASSET_TYPES, ADD_ASSET_TRANSACTIONS } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +6,13 @@ export default (state, action) => {
       return {
         ...state,
         assetTypes: action.payload
+      };
+
+    case ADD_ASSET_TRANSACTIONS:
+      return {
+        ...state,
+        transByAsset: action.payload.assets,
+        assetTypes: action.payload.types
       };
 
     default:
