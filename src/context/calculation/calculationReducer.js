@@ -12,7 +12,8 @@ export default (state, action) => {
       return {
         // ...state,
         transByAsset: action.payload.assets,
-        assetTypes: action.payload.types
+        assetTypes: action.payload.types,
+        exportByAsset: action.payload.export
       };
 
     default:

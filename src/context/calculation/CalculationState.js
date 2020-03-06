@@ -17,30 +17,31 @@ const CalculationState = props => {
     let uniqueTypes = [];
     let transByAsset = {};
     let assetTrans = null;
-
+    let exportByAsset = {};
+    let calcTransactions = [...transactions]
     // sort all transactions by date
-    transactions.sort((a, b) => a.transDate - b.transDate);
+    calcTransactions.sort((a, b) => a.transDate - b.transDate);
 
     // generate list of unique asset types
-    for (let transaction of transactions) {
+    for (let transaction of calcTransactions) {
       if (uniqueTypes.indexOf(transaction.asset) === -1) {
         uniqueTypes.push(transaction.asset.toUpperCase());
       }
     }
 
-    // separate transactions by asset type and calculate cost basis
+    // separate calcTransactions by asset type and calculate cost basis
     for (let type of uniqueTypes) {
-      assetTrans = transactions.filter(
+      assetTrans = calcTransactions.filter(
         transaction => transaction.asset.toUpperCase() === type
       );
 
-      calculateCostBasis(assetTrans);
+      exportByAsset[type] = calculateCostBasis(assetTrans);
       transByAsset[type] = assetTrans;
     }
 
     // calculate cost basis
 
-    let myPayload = { types: uniqueTypes, assets: transByAsset };
+    let myPayload = { types: uniqueTypes, assets: transByAsset, export: exportByAsset };
 
     dispatch({
       type: ADD_ASSET_TRANSACTIONS,
@@ -65,18 +66,27 @@ export default CalculationState;
 
 function calculateCostBasis(transactions) {
   let purchases = [];
+  let calculationExport = [];
+
   for (let transaction of transactions) {
     if (transaction.type.toLowerCase() === 'buy') {
       transaction.costBasis = transaction.amount + transaction.fee;
       transaction.averageCost = transaction.costBasis / transaction.qty;
       purchases.push({
+        transDate: transaction.transDate,
+        service: transaction.service,
         qtyLeft: transaction.qty,
         avgCost: transaction.averageCost
       });
       console.log(purchases);
     } else if (transaction.type.toLowerCase() === 'sell') {
+      let currentSaleEntry = {};
       let qtySaleRemaining = transaction.qty;
       let costBasis = 0;
+      currentSaleEntry.service = purchases[ 0 ].service;
+      currentSaleEntry.purchaseDate = purchases[ 0 ].transDate;
+      currentSaleEntry.asset = transaction.asset;
+      currentSaleEntry.sellDate = transaction.transDate;
       do {
         if (purchases[0].qtyLeft >= qtySaleRemaining) {
           // add assets from this purchase to cost basis
@@ -104,9 +114,15 @@ function calculateCostBasis(transactions) {
 
       costBasis += transaction.fee;
 
+      currentSaleEntry.capitalGain = transaction.amount - costBasis;
+      currentSaleEntry.costBasis = costBasis;
+
+      calculationExport.push(currentSaleEntry);
+
       // add cost basis to the trasaction object
       transaction.costBasis = costBasis;
       transaction.capitalGain = transaction.amount - costBasis
     } 
   }
+  return calculationExport;
 }
