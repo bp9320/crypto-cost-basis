@@ -12,7 +12,7 @@ const TransactionTable = () => {
   // set up calculation context
   const calculationContext = useContext(CalculationContext);
 
-  const { setAssetTypes, addAssetTransactions } = calculationContext;
+  const { setAssetTypes } = calculationContext;
 
   if (transactions.length === 0) {
     return (
@@ -26,7 +26,6 @@ const TransactionTable = () => {
 
   const onClick = () => {
     setAssetTypes(transactions);
-    // addAssetTransactions(transactions);
   };
 
   return (

@@ -10,7 +10,7 @@ export default (state, action) => {
 
     case ADD_ASSET_TRANSACTIONS:
       return {
-        ...state,
+        // ...state,
         transByAsset: action.payload.assets,
         assetTypes: action.payload.types
       };
