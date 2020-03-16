@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
-// import moment from 'moment';
+import moment from 'moment';
+// import uuid from 'uuid';
 import CalculationContext from './calculationContext';
 import calculationReducer from './calculationReducer';
 
@@ -8,7 +9,8 @@ import { ADD_ASSET_TRANSACTIONS } from '../types';
 const CalculationState = props => {
   const initialState = {
     assetTypes: null,
-    transByAsset: null
+    transByAsset: null,
+    exportByAsset: null
   };
 
   const [state, dispatch] = useReducer(calculationReducer, initialState);
@@ -18,7 +20,7 @@ const CalculationState = props => {
     let transByAsset = {};
     let assetTrans = null;
     let exportByAsset = {};
-    let calcTransactions = [...transactions]
+    let calcTransactions = [...transactions];
     // sort all transactions by date
     calcTransactions.sort((a, b) => a.transDate - b.transDate);
 
@@ -41,7 +43,11 @@ const CalculationState = props => {
 
     // calculate cost basis
 
-    let myPayload = { types: uniqueTypes, assets: transByAsset, export: exportByAsset };
+    let myPayload = {
+      types: uniqueTypes,
+      assets: transByAsset,
+      export: exportByAsset
+    };
 
     dispatch({
       type: ADD_ASSET_TRANSACTIONS,
@@ -54,6 +60,7 @@ const CalculationState = props => {
       value={{
         assetTypes: state.assetTypes,
         transByAsset: state.transByAsset,
+        exportByAsset: state.exportByAsset,
         setAssetTypes
       }}
     >
@@ -83,8 +90,9 @@ function calculateCostBasis(transactions) {
       let currentSaleEntry = {};
       let qtySaleRemaining = transaction.qty;
       let costBasis = 0;
-      currentSaleEntry.service = purchases[ 0 ].service;
-      currentSaleEntry.purchaseDate = purchases[ 0 ].transDate;
+      currentSaleEntry.id = transaction.id;
+      currentSaleEntry.service = purchases[0].service;
+      currentSaleEntry.purchaseDate = purchases[0].transDate;
       currentSaleEntry.asset = transaction.asset;
       currentSaleEntry.sellDate = transaction.transDate;
       do {
@@ -101,15 +109,14 @@ function calculateCostBasis(transactions) {
           qtySaleRemaining = 0;
         } else {
           // add assets from this purchase to cost basis
-          costBasis += purchases[ 0 ].avgCost * purchases[ 0 ].qtyLeft;
-          
+          costBasis += purchases[0].avgCost * purchases[0].qtyLeft;
+
           // subtract quantity used from quantity remaining
-          qtySaleRemaining -= purchases[ 0 ].qtyLeft;
+          qtySaleRemaining -= purchases[0].qtyLeft;
 
           // remove depleted purchase from purchases array
           purchases.shift();
         }
-
       } while (qtySaleRemaining > 0);
 
       costBasis += transaction.fee;
@@ -121,8 +128,8 @@ function calculateCostBasis(transactions) {
 
       // add cost basis to the trasaction object
       transaction.costBasis = costBasis;
-      transaction.capitalGain = transaction.amount - costBasis
-    } 
+      transaction.capitalGain = transaction.amount - costBasis;
+    }
   }
   return calculationExport;
 }

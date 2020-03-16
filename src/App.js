@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import TransactionForm from './components/transaction/TransactionForm';
 import TransactionTable from './components/transaction/TransactionTable';
+import CalculationTable from './components/calculation/CalculationTable';
 
 import TransactionState from './context/transaction/TransactionState';
 import CalculationState from './context/calculation/CalculationState';
@@ -24,6 +25,7 @@ const App = () => {
           <div className='divider'></div>
           <TransactionForm />
           <TransactionTable />
+          <CalculationTable />
         </Fragment>
       </CalculationState>
     </TransactionState>
