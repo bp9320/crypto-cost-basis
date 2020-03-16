@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/crypto-cost-basis/static/js/main.05be7687.chunk.js",
-    "main.js.map": "/crypto-cost-basis/static/js/main.05be7687.chunk.js.map",
+    "main.js": "/crypto-cost-basis/static/js/main.65cc7e7e.chunk.js",
+    "main.js.map": "/crypto-cost-basis/static/js/main.65cc7e7e.chunk.js.map",
     "runtime-main.js": "/crypto-cost-basis/static/js/runtime-main.1baa157b.js",
     "runtime-main.js.map": "/crypto-cost-basis/static/js/runtime-main.1baa157b.js.map",
-    "static/js/2.11e75fa8.chunk.js": "/crypto-cost-basis/static/js/2.11e75fa8.chunk.js",
-    "static/js/2.11e75fa8.chunk.js.map": "/crypto-cost-basis/static/js/2.11e75fa8.chunk.js.map",
+    "static/js/2.02b4bd31.chunk.js": "/crypto-cost-basis/static/js/2.02b4bd31.chunk.js",
+    "static/js/2.02b4bd31.chunk.js.map": "/crypto-cost-basis/static/js/2.02b4bd31.chunk.js.map",
     "index.html": "/crypto-cost-basis/index.html",
-    "precache-manifest.18ba35892c96cb779eef554bca8434dd.js": "/crypto-cost-basis/precache-manifest.18ba35892c96cb779eef554bca8434dd.js",
+    "precache-manifest.c807fbf31283e3d7263410f288514949.js": "/crypto-cost-basis/precache-manifest.c807fbf31283e3d7263410f288514949.js",
     "service-worker.js": "/crypto-cost-basis/service-worker.js",
-    "static/js/2.11e75fa8.chunk.js.LICENSE.txt": "/crypto-cost-basis/static/js/2.11e75fa8.chunk.js.LICENSE.txt"
+    "static/js/2.02b4bd31.chunk.js.LICENSE.txt": "/crypto-cost-basis/static/js/2.02b4bd31.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.1baa157b.js",
-    "static/js/2.11e75fa8.chunk.js",
-    "static/js/main.05be7687.chunk.js"
+    "static/js/2.02b4bd31.chunk.js",
+    "static/js/main.65cc7e7e.chunk.js"
   ]
 }
