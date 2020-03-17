@@ -1,4 +1,4 @@
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, Fragment, useEffect } from 'react';
 // import TransactionContext from '../../context/transaction/transactionContext';
 import CalculationContext from '../../context/calculation/calculationContext';
 import CalculationRow from './CalculationRow';
@@ -9,6 +9,18 @@ const CalculationTable = () => {
 
   const { assetTypes, exportByAsset } = calculationContext;
 
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    $('.calculation-table').DataTable({
+      paging: false,
+      ordering: false,
+      info: false,
+      searching: false,
+      dom: 'Bfrtip',
+      buttons: ['csv']
+    });
+  });
+
   console.log('exportByAsset: ', exportByAsset);
   console.log('assetTypes: ', assetTypes);
 
@@ -18,7 +30,7 @@ const CalculationTable = () => {
         {assetTypes.map(asset => (
           <div className='container'>
             <h2>{asset}</h2>
-            <table className='striped centered'>
+            <table className='striped centered calculation-table'>
               <thead>
                 <tr>
                   <th>Service</th>

@@ -5,7 +5,6 @@ const CalculationRow = ({ transaction }) => {
   console.log(transaction);
 
   const {
-    id,
     service,
     asset,
     purchaseDate,
