@@ -2,9 +2,11 @@ import React, { Fragment } from "react";
 import TransactionForm from "./components/transaction/TransactionForm";
 import TransactionTable from "./components/transaction/TransactionTable";
 import CalculationTable from "./components/calculation/CalculationTable";
+import ErrorMessage from "./components/errors/ErrorMessage";
 
 import TransactionState from "./context/transaction/TransactionState";
 import CalculationState from "./context/calculation/CalculationState";
+
 // import './App.css';
 
 const App = () => {
@@ -25,6 +27,7 @@ const App = () => {
           <div className="divider"></div>
           <TransactionForm />
           <TransactionTable />
+          <ErrorMessage />
           <CalculationTable />
         </Fragment>
       </CalculationState>

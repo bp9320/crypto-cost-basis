@@ -22,6 +22,7 @@ const CalculationState = (props) => {
     let assetTrans = null;
     let exportByAsset = {};
     let calcTransactions = [...transactions];
+
     // sort all transactions by date
     calcTransactions.sort((a, b) => a.transDate - b.transDate);
 
