@@ -1,22 +1,23 @@
-import React, { useReducer } from 'react';
-import uuid from 'uuid';
-import moment from 'moment';
-import TransactionContext from './transactionContext';
-import transactionReducer from './transactionReducer';
+import React, { useReducer } from "react";
+import uuid from "uuid";
+import moment from "moment";
+import TransactionContext from "./transactionContext";
+import transactionReducer from "./transactionReducer";
 
-import { ADD_TRANSACTION } from '../types';
+import { ADD_TRANSACTION } from "../types";
+import { SHOW_ERROR } from "../types";
 
-const TransactionState = props => {
+const TransactionState = (props) => {
   const initialState = {
     transactions: [],
     sorted: {},
-    current: null
+    dateOfFirstInvalidTransaction: null,
   };
 
   const [state, dispatch] = useReducer(transactionReducer, initialState);
 
   // Add Transaction
-  const addTransaction = transaction => {
+  const addTransaction = (transaction) => {
     // set unique id
     transaction.id = uuid.v4();
 
@@ -27,10 +28,18 @@ const TransactionState = props => {
     transaction.fee = parseFloat(transaction.fee);
 
     // set display date
-    transaction.displayDate = transaction.transDate.format('llll');
+    transaction.displayDate = transaction.transDate.format("llll");
     dispatch({
       type: ADD_TRANSACTION,
-      payload: transaction
+      payload: transaction,
+    });
+  };
+
+  // Show Error
+  const showError = (date) => {
+    dispatch({
+      type: SHOW_ERROR,
+      payload: date,
     });
   };
 
@@ -49,8 +58,9 @@ const TransactionState = props => {
       value={{
         transactions: state.transactions,
         sorted: state.sorted,
-        current: state.current,
-        addTransaction
+        dateOfFirstInvalidTransaction: state.dateOfFirstInvalidTransaction,
+        addTransaction,
+        showError,
       }}
     >
       {props.children}

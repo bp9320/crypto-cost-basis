@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
-import TransactionContext from '../../context/transaction/transactionContext';
-import CalculationContext from '../../context/calculation/calculationContext';
-import TransactionRow from './TransactionRow';
+import React, { useContext } from "react";
+import TransactionContext from "../../context/transaction/transactionContext";
+import CalculationContext from "../../context/calculation/calculationContext";
+import TransactionRow from "./TransactionRow";
+const validations = require("../../context/transaction/inputValidations");
 
 const TransactionTable = () => {
   // set up transaction context
   const transactionContext = useContext(TransactionContext);
 
-  const { transactions } = transactionContext;
+  const { transactions, showError } = transactionContext;
 
   // set up calculation context
   const calculationContext = useContext(CalculationContext);
@@ -16,7 +17,7 @@ const TransactionTable = () => {
 
   if (transactions.length === 0) {
     return (
-      <div className='container center-align'>
+      <div className="container center-align">
         <h4>Enter a transaction!</h4>
       </div>
     );
@@ -24,13 +25,29 @@ const TransactionTable = () => {
 
   console.log(transactions);
 
+  const findDateOfFirstInvalidTransaction = (transactions) => {
+    for (let transaction of transactions) {
+      if (!validations.isAlphanumeric(transaction.service)) {
+        return transaction.displayDate;
+      }
+    }
+    return null;
+  };
+
   const onClick = () => {
-    setAssetTypes(transactions);
+    let dateOfInvalidTransaction = findDateOfFirstInvalidTransaction(
+      transactions
+    );
+    if (dateOfInvalidTransaction) {
+      showError(dateOfInvalidTransaction);
+    } else {
+      setAssetTypes(transactions);
+    }
   };
 
   return (
-    <div className='container'>
-      <table className='striped centered'>
+    <div className="container">
+      <table className="striped centered">
         <thead>
           <tr>
             <th>Service</th>
@@ -43,14 +60,14 @@ const TransactionTable = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map(transaction => (
+          {transactions.map((transaction) => (
             <TransactionRow transaction={transaction} key={transaction.id} />
           ))}
         </tbody>
       </table>
-      <div className='row center-align'>
-        <button className='waves-effect waves-light btn' onClick={onClick}>
-          <i className='material-icons right'>attach_money</i>Calculate!
+      <div className="row center-align">
+        <button className="waves-effect waves-light btn" onClick={onClick}>
+          <i className="material-icons right">attach_money</i>Calculate!
         </button>
       </div>
     </div>
