@@ -19,8 +19,6 @@ test("Returns false if input is null.", () => {
   expect(validations.isAlphanumeric(null)).toEqual(false);
 });
 
-// Validate Timestamp is valid ISO-8601 format
-
 // Validate Quantity is a decimal value
 
 // Validate Transaction amount is two decimals max
