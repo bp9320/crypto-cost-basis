@@ -29,6 +29,12 @@ const TransactionTable = () => {
     for (let transaction of transactions) {
       if (!validations.isAlphanumeric(transaction.service)) {
         return transaction.displayDate;
+      } else if (!validations.isAlphanumeric(transaction.asset)) {
+        return transaction.displayDate;
+      } else if (!transaction.transDate.isValid()) {
+        return transaction.displayDate;
+      } else if (!validations.isPositiveNumber(transaction.qty)) {
+        return transaction.displayDate;
       }
     }
     return null;

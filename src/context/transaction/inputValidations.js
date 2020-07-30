@@ -6,12 +6,16 @@ const isAlphanumeric = (textString) => {
   return !!textString.match(/^[0-9a-z]+$/i);
 };
 
-// Validate Timestamp is valid ISO-8601 format
-
 // Validate Quantity is a decimal value
-
+const isPositiveNumber = (input) => {
+  if (typeof input !== "number") {
+    return false;
+  }
+  return input > 0;
+};
 // Validate Transaction amount is two decimals max
 
 // Validate Transaction fee is two decimals max
 
 module.exports.isAlphanumeric = isAlphanumeric;
+module.exports.isPositiveNumber = isPositiveNumber;
