@@ -33,6 +33,8 @@ const TransactionTable = () => {
         return transaction.displayDate;
       } else if (!transaction.transDate.isValid()) {
         return transaction.displayDate;
+      } else if (!validations.isPositiveNumber(transaction.qty)) {
+        return transaction.displayDate;
       }
     }
     return null;
