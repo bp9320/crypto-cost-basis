@@ -13,9 +13,18 @@ const isPositiveNumber = (input) => {
   }
   return input > 0;
 };
-// Validate Transaction amount is two decimals max
 
-// Validate Transaction fee is two decimals max
+// Validate number is two decimals max
+const isNumberWithMaxTwoDecimals = (input) => {
+  if (typeof input !== "number" || isNaN(input)) {
+    return false;
+  }
+  const inputString = input.toString();
+  const decimal = inputString.split(".")[1];
+  const hasNoDecimal = !decimal;
+  return hasNoDecimal || decimal.length <= 2;
+};
 
 module.exports.isAlphanumeric = isAlphanumeric;
 module.exports.isPositiveNumber = isPositiveNumber;
+module.exports.isNumberWithMaxTwoDecimals = isNumberWithMaxTwoDecimals;
