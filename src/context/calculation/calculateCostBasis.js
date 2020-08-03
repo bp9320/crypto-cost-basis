@@ -61,4 +61,4 @@ function calculateCostBasis(transactions) {
   return calculationExport;
 }
 
-module.exports = calculateCostBasis;
+export default calculateCostBasis;
