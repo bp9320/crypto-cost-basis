@@ -1,4 +1,4 @@
-let calculateCostBasis = require("./calculateCostBasis");
+import calculateCostBasis from "./calculateCostBasis";
 
 // Test Data
 
