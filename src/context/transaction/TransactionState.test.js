@@ -43,8 +43,12 @@ describe("Test isPositiveNumber function", () => {
     expect(validations.isPositiveNumber(0)).toEqual(false);
   });
 
-  test("Returns false if input is a NOT a numerical value", () => {
+  test("Returns false if input is NOT of type 'number'", () => {
     expect(validations.isPositiveNumber({ test: "testObject" })).toEqual(false);
+  });
+
+  test("Returns false if input is NaN (not a number)", () => {
+    expect(validations.isPositiveNumber(NaN)).toEqual(false);
   });
 
   test("Returns false if input is null", () => {
@@ -96,5 +100,3 @@ describe("Test isNumberWithMaxTwoDecimals function", () => {
     expect(validations.isNumberWithMaxTwoDecimals(NaN)).toEqual(false);
   });
 });
-
-// Validate Transaction fee is two decimals max

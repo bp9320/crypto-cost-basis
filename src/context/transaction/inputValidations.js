@@ -8,7 +8,7 @@ const isAlphanumeric = (textString) => {
 
 // Validate Quantity is a decimal value
 const isPositiveNumber = (input) => {
-  if (typeof input !== "number") {
+  if (typeof input !== "number" || isNaN(input)) {
     return false;
   }
   return input > 0;
