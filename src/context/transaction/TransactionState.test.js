@@ -53,5 +53,48 @@ describe("Test isPositiveNumber function", () => {
 });
 
 // Validate Transaction amount is two decimals max
+describe("Test isNumberWithMaxTwoDecimals function", () => {
+  test("Returns true if input is a positive number with two decimals", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(1.23)).toEqual(true);
+  });
+
+  test("Returns true if input is a positive integer", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(1)).toEqual(true);
+  });
+
+  test("Returns false if input is a positive number with more than two decimals", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(1.234)).toEqual(false);
+  });
+
+  test("Returns true if input is a negative number with two decimals", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(-1.23)).toEqual(true);
+  });
+
+  test("Returns true if input is a negative integer", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(-1)).toEqual(true);
+  });
+
+  test("Returns false if input is a negative number with more than two decimals", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(-1.234)).toEqual(false);
+  });
+
+  test("Returns true if input is zero", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(0)).toEqual(true);
+  });
+
+  test("Returns false if input is not of type 'number'", () => {
+    expect(
+      validations.isNumberWithMaxTwoDecimals({ test: "testObject" })
+    ).toEqual(false);
+  });
+
+  test("Returns false if input is null", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(null)).toEqual(false);
+  });
+
+  test("Returns false if input is NaN", () => {
+    expect(validations.isNumberWithMaxTwoDecimals(NaN)).toEqual(false);
+  });
+});
 
 // Validate Transaction fee is two decimals max

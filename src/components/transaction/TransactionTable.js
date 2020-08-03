@@ -35,6 +35,16 @@ const TransactionTable = () => {
         return transaction.displayDate;
       } else if (!validations.isPositiveNumber(transaction.qty)) {
         return transaction.displayDate;
+      } else if (
+        transaction.amount <= 0 ||
+        !validations.isNumberWithMaxTwoDecimals(transaction.amount)
+      ) {
+        return transaction.displayDate;
+      } else if (
+        transaction.fee < 0 ||
+        !validations.isNumberWithMaxTwoDecimals(transaction.fee)
+      ) {
+        return transaction.displayDate;
       }
     }
     return null;
