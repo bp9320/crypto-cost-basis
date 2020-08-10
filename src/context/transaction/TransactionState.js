@@ -5,13 +5,11 @@ import TransactionContext from "./transactionContext";
 import transactionReducer from "./transactionReducer";
 
 import { ADD_TRANSACTION } from "../types";
-import { SHOW_ERROR } from "../types";
 
 const TransactionState = (props) => {
   const initialState = {
     transactions: [],
     sorted: {},
-    dateOfFirstInvalidTransaction: null,
   };
 
   const [state, dispatch] = useReducer(transactionReducer, initialState);
@@ -35,14 +33,6 @@ const TransactionState = (props) => {
     });
   };
 
-  // Show Error
-  const showError = (date) => {
-    dispatch({
-      type: SHOW_ERROR,
-      payload: date,
-    });
-  };
-
   // Delete Transaction
 
   // Set Current Transaction
@@ -58,9 +48,7 @@ const TransactionState = (props) => {
       value={{
         transactions: state.transactions,
         sorted: state.sorted,
-        dateOfFirstInvalidTransaction: state.dateOfFirstInvalidTransaction,
         addTransaction,
-        showError,
       }}
     >
       {props.children}

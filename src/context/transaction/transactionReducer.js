@@ -1,5 +1,4 @@
 import { ADD_TRANSACTION } from "../types";
-import { SHOW_ERROR } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -7,12 +6,6 @@ export default (state, action) => {
       return {
         ...state,
         transactions: [...state.transactions, action.payload],
-      };
-
-    case SHOW_ERROR:
-      return {
-        ...state,
-        dateOfFirstInvalidTransaction: action.payload,
       };
 
     default:
