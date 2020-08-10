@@ -4,11 +4,11 @@ import CalculationContext from "../../context/calculation/calculationContext";
 import TransactionRow from "./TransactionRow";
 const validations = require("../../context/transaction/inputValidations");
 
-const TransactionTable = () => {
+const TransactionTable = (props) => {
   // set up transaction context
   const transactionContext = useContext(TransactionContext);
 
-  const { transactions, showError } = transactionContext;
+  const { transactions } = transactionContext;
 
   // set up calculation context
   const calculationContext = useContext(CalculationContext);
@@ -55,7 +55,8 @@ const TransactionTable = () => {
       transactions
     );
     if (dateOfInvalidTransaction) {
-      showError(dateOfInvalidTransaction);
+      let errorMessage = `Your transaction dated ${dateOfInvalidTransaction} has invalid input.`;
+      props.setErrorMessage(errorMessage);
     } else {
       setAssetTypes(transactions);
     }
