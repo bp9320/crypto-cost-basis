@@ -1,4 +1,12 @@
-function calculateCostBasis(transactions) {
+export class SellMoreThanOwnError extends Error {
+  constructor(message, transactionErrorDate) {
+    super(message);
+    this.name = "SellMoreThanOwnError";
+    this.transactionErrorDate = transactionErrorDate;
+  }
+}
+
+export function calculateCostBasis(transactions) {
   let purchases = [];
   let calculationExport = [];
 
@@ -22,7 +30,16 @@ function calculateCostBasis(transactions) {
       currentSaleEntry.purchaseDate = purchases[0].transDate;
       currentSaleEntry.asset = transaction.asset;
       currentSaleEntry.sellDate = transaction.transDate;
+      currentSaleEntry.displayDate = transaction.displayDate;
       do {
+        if (purchases.length === 0) {
+          const errorMessage = `Transaction dated ${currentSaleEntry.displayDate} is selling more assets than are currently owned.`;
+          throw new SellMoreThanOwnError(
+            errorMessage,
+            currentSaleEntry.displayDate
+          );
+        }
+
         if (purchases[0].qtyLeft >= qtySaleRemaining) {
           // add assets from this purchase to cost basis
           costBasis += purchases[0].avgCost * qtySaleRemaining;
@@ -60,5 +77,3 @@ function calculateCostBasis(transactions) {
   }
   return calculationExport;
 }
-
-export default calculateCostBasis;

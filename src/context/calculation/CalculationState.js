@@ -3,7 +3,7 @@ import React, { useReducer } from "react";
 // import uuid from 'uuid';
 import CalculationContext from "./calculationContext";
 import calculationReducer from "./calculationReducer";
-import calculateCostBasis from "./calculateCostBasis";
+import { calculateCostBasis } from "./calculateCostBasis";
 
 import { ADD_ASSET_TRANSACTIONS } from "../types";
 

@@ -1,0 +1,7 @@
+service,asset,transDate,type,qty,amount,fee
+Coinbase,ETH,2018-01-31T07:01:38Z,Buy,10,2000,25
+Coinbase,ETH,2019-01-11T11:07:11Z,Sell,12,160,2.99
+Coinbase,ETH,2019-02-23T13:11:10Z,Sell,0.25,25,2.99
+Coinbase,ETH,2019-05-31T21:53:01Z,Sell,0.5,100,2.99
+Coinbase,ETH,2019-06-26T20:13:21Z,Sell,1.75,525,6.56
+Coinbase,ETH,2019-08-31T11:13:15Z,Sell,5,2000,25

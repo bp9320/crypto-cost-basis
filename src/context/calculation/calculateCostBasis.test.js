@@ -1,4 +1,4 @@
-import calculateCostBasis from "./calculateCostBasis";
+import { SellMoreThanOwnError, calculateCostBasis } from "./calculateCostBasis";
 
 // Tests
 describe("test calculateCostBasis function", () => {
@@ -179,5 +179,50 @@ describe("test calculateCostBasis function", () => {
         service: "Coinbase",
       },
     ]);
+  });
+
+  test("throws error if amount sold is greater than amount owned", () => {
+    const sellMoreThanOwnData = [
+      {
+        service: "Coinbase",
+        asset: "ETH",
+        transDate: "2018-01-31T07:01:31.000Z",
+        type: "Buy",
+        qty: 6,
+        amount: 600,
+        fee: 6,
+        id: "id1",
+        displayDate: "Wed, Jan 31, 2018 1:01 AM",
+      },
+      {
+        service: "Coinbase",
+        asset: "ETH",
+        transDate: "2018-03-31T07:01:38.000Z",
+        type: "Sell",
+        qty: 8,
+        amount: 600,
+        fee: 2,
+        id: "id2",
+        displayDate: "Wed, Jan 31, 2018 1:01 AM",
+      },
+    ];
+
+    let actualErrorObject = null;
+
+    try {
+      calculateCostBasis(sellMoreThanOwnData);
+    } catch (err) {
+      actualErrorObject = err;
+    }
+
+    expect(() => calculateCostBasis(sellMoreThanOwnData)).toThrowError(
+      SellMoreThanOwnError
+    );
+
+    expect(actualErrorObject.transactionErrorDate).toEqual(
+      "Wed, Jan 31, 2018 1:01 AM"
+    );
+
+    expect(actualErrorObject.name).toEqual("SellMoreThanOwnError");
   });
 });

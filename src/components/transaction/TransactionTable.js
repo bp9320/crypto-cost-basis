@@ -58,7 +58,16 @@ const TransactionTable = (props) => {
       let errorMessage = `Your transaction dated ${dateOfInvalidTransaction} has invalid input.`;
       props.setErrorMessage(errorMessage);
     } else {
-      setAssetTypes(transactions);
+      try {
+        setAssetTypes(transactions);
+      } catch (err) {
+        if (err.name === "SellMoreThanOwnError") {
+          let errorMessage = `Your transaction dated ${err.transactionErrorDate} is attempting to sell more assets than you currently own.`;
+          props.setErrorMessage(errorMessage);
+        } else {
+          throw err;
+        }
+      }
     }
   };
 
