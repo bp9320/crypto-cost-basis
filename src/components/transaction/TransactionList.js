@@ -1,21 +1,16 @@
-import React, { Fragment, useContext } from 'react';
-import TransactionContext from '../../context/transaction/transactionContext';
-import TransactionCard from './TransactionCard';
+import React, { Fragment, useContext } from "react";
+import TransactionCard from "./TransactionCard";
 
-const TransactionList = () => {
-  const transactionContext = useContext(TransactionContext);
-
-  const { transactions /*, current */ } = transactionContext;
-
-  if (transactions.length === 0) {
+const TransactionList = (props) => {
+  if (props.transactions.length === 0) {
     return <h4>Enter a transaction!</h4>;
   }
 
-  console.log(transactions);
+  console.log(props.transactions);
 
   return (
     <Fragment>
-      {transactions.map(transaction => (
+      {props.transactions.map((transaction) => (
         <TransactionCard transaction={transaction} key={transaction.id} />
       ))}
       ;

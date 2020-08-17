@@ -1,7 +1,6 @@
-import React, { useContext, Fragment, useEffect } from 'react';
-// import TransactionContext from '../../context/transaction/transactionContext';
-import CalculationContext from '../../context/calculation/calculationContext';
-import CalculationRow from './CalculationRow';
+import React, { useContext, Fragment, useEffect } from "react";
+import CalculationContext from "../../context/calculation/calculationContext";
+import CalculationRow from "./CalculationRow";
 
 const CalculationTable = () => {
   // set up calculation context
@@ -11,26 +10,26 @@ const CalculationTable = () => {
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
-    $('.calculation-table').DataTable({
+    $(".calculation-table").DataTable({
       paging: false,
       ordering: false,
       info: false,
       searching: false,
-      dom: 'Bfrtip',
-      buttons: ['csv']
+      dom: "Bfrtip",
+      buttons: ["csv"],
     });
   });
 
-  console.log('exportByAsset: ', exportByAsset);
-  console.log('assetTypes: ', assetTypes);
+  console.log("exportByAsset: ", exportByAsset);
+  console.log("assetTypes: ", assetTypes);
 
   if (assetTypes) {
     return (
       <Fragment>
-        {assetTypes.map(asset => (
-          <div className='container'>
+        {assetTypes.map((asset) => (
+          <div className="container">
             <h2>{asset}</h2>
-            <table className='striped centered calculation-table'>
+            <table className="striped centered calculation-table">
               <thead>
                 <tr>
                   <th>Service</th>
@@ -42,7 +41,7 @@ const CalculationTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {exportByAsset[asset].map(transaction => (
+                {exportByAsset[asset].map((transaction) => (
                   <CalculationRow
                     transaction={transaction}
                     key={transaction.id}
