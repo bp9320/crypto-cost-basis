@@ -1,21 +1,15 @@
 import React, { useContext } from "react";
-import TransactionContext from "../../context/transaction/transactionContext";
 import CalculationContext from "../../context/calculation/calculationContext";
 import TransactionRow from "./TransactionRow";
 const validations = require("../../context/transaction/inputValidations");
 
 const TransactionTable = (props) => {
-  // set up transaction context
-  const transactionContext = useContext(TransactionContext);
-
-  const { transactions } = transactionContext;
-
   // set up calculation context
   const calculationContext = useContext(CalculationContext);
 
   const { setAssetTypes } = calculationContext;
 
-  if (transactions.length === 0) {
+  if (props.transactions.length === 0) {
     return (
       <div className="container center-align">
         <h4>Enter a transaction!</h4>
@@ -23,7 +17,7 @@ const TransactionTable = (props) => {
     );
   }
 
-  console.log(transactions);
+  console.log(props.transactions);
 
   const findDateOfFirstInvalidTransaction = (transactions) => {
     for (let transaction of transactions) {
@@ -52,14 +46,14 @@ const TransactionTable = (props) => {
 
   const onClick = () => {
     let dateOfInvalidTransaction = findDateOfFirstInvalidTransaction(
-      transactions
+      props.transactions
     );
     if (dateOfInvalidTransaction) {
       let errorMessage = `Your transaction dated ${dateOfInvalidTransaction} has invalid input.`;
       props.setErrorMessage(errorMessage);
     } else {
       try {
-        setAssetTypes(transactions);
+        setAssetTypes(props.transactions);
       } catch (err) {
         if (err.name === "SellMoreThanOwnError") {
           let errorMessage = `Your transaction dated ${err.transactionErrorDate} is attempting to sell more assets than you currently own.`;
@@ -86,7 +80,7 @@ const TransactionTable = (props) => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction) => (
+          {props.transactions.map((transaction) => (
             <TransactionRow transaction={transaction} key={transaction.id} />
           ))}
         </tbody>

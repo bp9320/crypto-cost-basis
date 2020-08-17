@@ -1,260 +1,208 @@
-import React, { Fragment, useEffect, useState, useContext } from 'react';
-import TransactionContext from '../../context/transaction/transactionContext';
-import Papa from 'papaparse';
+import React, { Fragment, useEffect, useState } from "react";
+import uuid from "uuid";
+import moment from "moment";
+import Papa from "papaparse";
 
-const TransactionForm = () => {
-  const transactionContext = useContext(TransactionContext);
+const TransactionForm = (props) => {
+  const buildTransaction = (rawTransactionData) => {
+    // set unique id
+    rawTransactionData.id = uuid.v4();
 
-  const { addTransaction } = transactionContext;
+    // format input data
+    rawTransactionData.transDate = moment(rawTransactionData.transDate);
+    rawTransactionData.qty = parseFloat(rawTransactionData.qty);
+    rawTransactionData.amount = parseFloat(rawTransactionData.amount);
+    rawTransactionData.fee = parseFloat(rawTransactionData.fee);
+
+    // set display date
+    rawTransactionData.displayDate = rawTransactionData.transDate.format(
+      "llll"
+    );
+    return rawTransactionData;
+  };
 
   useEffect(() => {
-    // // Initializing datePicker and select elements with Materialize-css
-    // const datePicker = document.querySelector('.datepicker');
-    // // eslint-disable-next-line no-undef
-    // M.Datepicker.init(datePicker, {
-    //   autoClose: true,
-    //   onSelect: date => {
-    //     let dispDate = `${date.getDate()}, ${date.getFullYear()}`;
-    //     switch (date.getMonth()) {
-    //       case 0:
-    //         dispDate = `Jan ${dispDate} `;
-    //         break;
-
-    //       case 1:
-    //         dispDate = `Feb ${dispDate}`;
-    //         break;
-
-    //       case 2:
-    //         dispDate = `Mar ${dispDate}`;
-    //         break;
-
-    //       case 3:
-    //         dispDate = `Apr ${dispDate}`;
-    //         break;
-
-    //       case 4:
-    //         dispDate = `May ${dispDate}`;
-    //         break;
-
-    //       case 5:
-    //         dispDate = `Jun ${dispDate}`;
-    //         break;
-
-    //       case 6:
-    //         dispDate = `Jul ${dispDate}`;
-    //         break;
-
-    //       case 7:
-    //         dispDate = `Aug ${dispDate}`;
-    //         break;
-
-    //       case 8:
-    //         dispDate = `Sep ${dispDate}`;
-    //         break;
-
-    //       case 9:
-    //         dispDate = `Oct ${dispDate}`;
-    //         break;
-
-    //       case 10:
-    //         dispDate = `Nov ${dispDate}`;
-    //         break;
-
-    //       case 11:
-    //         dispDate = `Dec ${dispDate}`;
-    //         break;
-
-    //       default:
-    //         dispDate = '';
-    //         break;
-    //     }
-    //     setTransaction({
-    //       ...transaction,
-    //       transDate: date,
-    //       displayDate: dispDate
-    //     });
-    //   }
-    // });
-
-    const select = document.querySelector('#type');
+    const select = document.querySelector("#type");
     // eslint-disable-next-line no-undef
     M.FormSelect.init(select);
   });
 
   // set up component level state
   const [transaction, setTransaction] = useState({
-    service: '',
-    type: 'sell',
-    asset: '',
+    service: "",
+    type: "sell",
+    asset: "",
     //displayDate: '',
-    transDate: '',
-    qty: '',
-    amount: '',
-    fee: ''
+    transDate: "",
+    qty: "",
+    amount: "",
+    fee: "",
   });
 
   // destructure state for easier use
   const { service, type, asset, transDate, qty, amount, fee } = transaction;
 
   // update component state when form inputs change
-  const onChange = e => {
+  const onChange = (e) => {
     setTransaction({ ...transaction, [e.target.name]: e.target.value });
   };
 
   // actions for single transaction form submission
-  const onSubmitSingle = e => {
+  const onSubmitSingle = (e) => {
     e.preventDefault();
-    addTransaction(transaction);
+    const newTransaction = buildTransaction(transaction);
+    props.addTransaction(newTransaction);
     setTransaction({
-      service: '',
-      type: 'sell',
-      asset: '',
+      service: "",
+      type: "sell",
+      asset: "",
       //displayDate: '',
-      transDate: '',
-      qty: '',
-      amount: '',
-      fee: ''
+      transDate: "",
+      qty: "",
+      amount: "",
+      fee: "",
     });
   };
 
   // actions for file upload form submission
-  const onSubmitUpload = e => {
+  const onSubmitUpload = (e) => {
     e.preventDefault();
-    const file = document.getElementById('fileUpload');
+    const file = document.getElementById("fileUpload");
     console.log(file, file.files.length);
     if (file.files.length > 0) {
       Papa.parse(file.files[0], {
         header: true,
-        complete: parsedTransactions => {
+        complete: (parsedTransactions) => {
           // put add transaction code here
           console.log(parsedTransactions);
           for (var csvTransaction of parsedTransactions.data) {
-            addTransaction(csvTransaction);
+            const newTransaction = buildTransaction(csvTransaction);
+            props.addTransaction(newTransaction);
           }
-        }
+        },
       });
     }
-    file.value = '';
-    document.getElementById('filePathText').value = '';
+    file.value = "";
+    document.getElementById("filePathText").value = "";
   };
 
   return (
     <Fragment>
-      <div className='row section'>
-        <form className='col s12' onSubmit={onSubmitSingle}>
-          <div className='row'>
-            <div className='input-field col s2'>
+      <div className="row section">
+        <form className="col s12" onSubmit={onSubmitSingle}>
+          <div className="row">
+            <div className="input-field col s2">
               <input
-                type='text'
-                name='service'
-                id='service'
+                type="text"
+                name="service"
+                id="service"
                 value={service}
-                placeholder='e.g. Coinbase'
-                className='validate'
+                placeholder="e.g. Coinbase"
+                className="validate"
                 onChange={onChange}
               />
-              <label htmlFor='service'>Trading Service</label>
+              <label htmlFor="service">Trading Service</label>
             </div>
-            <div className='input-field col s2'>
-              <select name='type' id='type' value={type} onChange={onChange}>
-                <option value='buy'>Buy</option>
-                <option value='sell'>Sell</option>
+            <div className="input-field col s2">
+              <select name="type" id="type" value={type} onChange={onChange}>
+                <option value="buy">Buy</option>
+                <option value="sell">Sell</option>
               </select>
-              <label htmlFor='type'>Transaction Type</label>
+              <label htmlFor="type">Transaction Type</label>
             </div>
-            <div className='input-field col s1'>
+            <div className="input-field col s1">
               <input
-                type='text'
-                name='asset'
-                id='asset'
-                placeholder='e.g. BTC, ETH, LTC'
-                className='validate'
+                type="text"
+                name="asset"
+                id="asset"
+                placeholder="e.g. BTC, ETH, LTC"
+                className="validate"
                 value={asset}
                 onChange={onChange}
               />
-              <label htmlFor='asset'>Asset</label>
+              <label htmlFor="asset">Asset</label>
             </div>
-            <div className='input-field col s2'>
+            <div className="input-field col s2">
               <input
-                type='text'
-                name='transDate'
-                id='transDate'
-                placeholder='ISO 8601 Format'
-                className='datepicker'
+                type="text"
+                name="transDate"
+                id="transDate"
+                placeholder="ISO 8601 Format"
+                className="datepicker"
                 value={transDate}
                 onChange={onChange}
               />
-              <label htmlFor='transdate'>Transaction Date</label>
+              <label htmlFor="transdate">Transaction Date</label>
             </div>
-            <div className='input-field col s1'>
+            <div className="input-field col s1">
               <input
-                type='text'
-                name='qty'
-                id='qty'
-                placeholder='Quantity'
+                type="text"
+                name="qty"
+                id="qty"
+                placeholder="Quantity"
                 value={qty}
                 onChange={onChange}
               />
-              <label htmlFor='qty'>Quantity</label>
+              <label htmlFor="qty">Quantity</label>
             </div>
-            <div className='input-field col s2'>
+            <div className="input-field col s2">
               <input
-                type='text'
-                name='amount'
-                id='amount'
-                placeholder='Dollar Amount'
+                type="text"
+                name="amount"
+                id="amount"
+                placeholder="Dollar Amount"
                 value={amount}
                 onChange={onChange}
               />
-              <label htmlFor='amount'>Transaction Amount</label>
+              <label htmlFor="amount">Transaction Amount</label>
             </div>
-            <div className='input-field col s2'>
+            <div className="input-field col s2">
               <input
-                type='text'
-                name='fee'
-                id='fee'
-                placeholder='Fees'
+                type="text"
+                name="fee"
+                id="fee"
+                placeholder="Fees"
                 value={fee}
                 onChange={onChange}
               />
-              <label htmlFor='fee'>Transaction Fee</label>
+              <label htmlFor="fee">Transaction Fee</label>
             </div>
           </div>
-          <div className='row center-align'>
+          <div className="row center-align">
             <button
-              className='btn waves-effect waves-light'
-              type='submit'
-              name='submit'
+              className="btn waves-effect waves-light"
+              type="submit"
+              name="submit"
             >
               Add Transaction
-              <i className='material-icons right'>send</i>
+              <i className="material-icons right">send</i>
             </button>
           </div>
         </form>
       </div>
-      <div className='row section'>
-        <form className='col s4 push-s4' onSubmit={onSubmitUpload}>
-          <div className='file-field input-field'>
-            <div className='btn'>
+      <div className="row section">
+        <form className="col s4 push-s4" onSubmit={onSubmitUpload}>
+          <div className="file-field input-field">
+            <div className="btn">
               <span>Select File</span>
-              <input type='file' id='fileUpload' />
+              <input type="file" id="fileUpload" />
             </div>
-            <div className='file-path-wrapper'>
+            <div className="file-path-wrapper">
               <input
-                type='text'
-                className='file-path validate'
-                id='filePathText'
+                type="text"
+                className="file-path validate"
+                id="filePathText"
               />
             </div>
           </div>
-          <div className='row center-align'>
+          <div className="row center-align">
             <button
-              className='btn waves-effect waves-light'
-              type='submit'
-              name='submit'
+              className="btn waves-effect waves-light"
+              type="submit"
+              name="submit"
             >
               Parse Transactions
-              <i className='material-icons right'>insert_drive_file</i>
+              <i className="material-icons right">insert_drive_file</i>
             </button>
           </div>
         </form>
