@@ -3,8 +3,9 @@ import TransactionForm from "./components/transaction/TransactionForm";
 import TransactionTable from "./components/transaction/TransactionTable";
 import CalculationTable from "./components/calculation/CalculationTable";
 import ErrorMessage from "./components/errors/ErrorMessage";
+import { calculateCostBasis } from "./context/calculation/calculateCostBasis";
 
-import CalculationState from "./context/calculation/CalculationState";
+
 
 // import './App.css';
 
@@ -17,6 +18,11 @@ class App extends Component {
         transactions: [],
         sorted: {},
       },
+      calculationState: {
+        assetTypes: [],
+        transByAsset: {},
+        exportByAsset: {},
+      }
     };
   }
 
@@ -33,9 +39,40 @@ class App extends Component {
     });
   };
 
+  handleCalculationClick = (transactions) => {
+    let uniqueTypes = [];
+    let transByAsset = {};
+    let assetTrans = null;
+    let exportByAsset = {};
+    let calcTransactions = [...transactions];
+
+    // sort all transactions by date
+    calcTransactions.sort((a, b) => a.transDate - b.transDate);
+
+    // generate list of unique asset types
+    for (let transaction of calcTransactions) {
+      if (uniqueTypes.indexOf(transaction.asset) === -1) {
+        uniqueTypes.push(transaction.asset.toUpperCase());
+      }
+    }
+
+    // separate calcTransactions by asset type and calculate cost basis
+    for (let type of uniqueTypes) {
+      assetTrans = calcTransactions.filter(
+        (transaction) => transaction.asset.toUpperCase() === type
+      );
+
+      exportByAsset[type] = calculateCostBasis(assetTrans);
+      transByAsset[type] = assetTrans;
+    }
+
+    this.setState({calculationState: {assetTypes: uniqueTypes, transByAsset, exportByAsset}})
+  };
+
+
+
   render() {
     return (
-      <CalculationState>
         <Fragment>
           <h1 className="center-align">Crypto Capital Gains Calculator</h1>
           <div className="container">
@@ -52,11 +89,14 @@ class App extends Component {
           <TransactionTable
             setErrorMessage={this.setErrorMessage}
             transactions={[...this.state.transactionState.transactions]}
+            calculateCapitalGains={this.handleCalculationClick}
           />
           <ErrorMessage errorMessage={this.state.errorMessage} />
-          <CalculationTable />
+          <CalculationTable 
+            ownedAssetTypes={[...this.state.calculationState.assetTypes]}
+            calculationsByAsset={{...this.state.calculationState.exportByAsset}}
+          />
         </Fragment>
-      </CalculationState>
     );
   }
 }
