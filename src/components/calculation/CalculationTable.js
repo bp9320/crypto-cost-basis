@@ -1,12 +1,9 @@
-import React, { useContext, Fragment, useEffect } from "react";
-import CalculationContext from "../../context/calculation/calculationContext";
+import React, { Fragment, useEffect } from "react";
 import CalculationRow from "./CalculationRow";
 
-const CalculationTable = () => {
-  // set up calculation context
-  const calculationContext = useContext(CalculationContext);
+const CalculationTable = (props) => {
 
-  const { assetTypes, exportByAsset } = calculationContext;
+  const { ownedAssetTypes, calculationsByAsset } = props;
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
@@ -20,13 +17,13 @@ const CalculationTable = () => {
     });
   });
 
-  console.log("exportByAsset: ", exportByAsset);
-  console.log("assetTypes: ", assetTypes);
+  console.log("calculationsByAsset: ", calculationsByAsset);
+  console.log("ownedAssetTypes: ", ownedAssetTypes);
 
-  if (assetTypes) {
+  if (ownedAssetTypes) {
     return (
       <Fragment>
-        {assetTypes.map((asset) => (
+        {ownedAssetTypes.map((asset) => (
           <div className="container">
             <h2>{asset}</h2>
             <table className="striped centered calculation-table">
@@ -41,7 +38,7 @@ const CalculationTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {exportByAsset[asset].map((transaction) => (
+                {calculationsByAsset[asset].map((transaction) => (
                   <CalculationRow
                     transaction={transaction}
                     key={transaction.id}

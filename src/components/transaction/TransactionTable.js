@@ -1,13 +1,8 @@
-import React, { useContext } from "react";
-import CalculationContext from "../../context/calculation/calculationContext";
+import React from "react";
 import TransactionRow from "./TransactionRow";
 const validations = require("../../context/transaction/inputValidations");
 
 const TransactionTable = (props) => {
-  // set up calculation context
-  const calculationContext = useContext(CalculationContext);
-
-  const { setAssetTypes } = calculationContext;
 
   if (props.transactions.length === 0) {
     return (
@@ -53,7 +48,7 @@ const TransactionTable = (props) => {
       props.setErrorMessage(errorMessage);
     } else {
       try {
-        setAssetTypes(props.transactions);
+        props.calculateCapitalGains(props.transactions);
       } catch (err) {
         if (err.name === "SellMoreThanOwnError") {
           let errorMessage = `Your transaction dated ${err.transactionErrorDate} is attempting to sell more assets than you currently own.`;
